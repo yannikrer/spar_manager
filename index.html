@@ -2,129 +2,112 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Finanz-Tracker: Spar- & Privatkonto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Finanz-Tracker (Mobil)</title>
   <style>
     :root {
       --bg: #0f172a;           /* slate-900 */
-      --panel: #111827;        /* gray-900 */
+      --panel: #0b1220;        /* dark navy */
       --muted: #9ca3af;        /* gray-400 */
       --text: #e5e7eb;         /* gray-200 */
-      --accent: #22c55e;       /* green-500 */
-      --danger: #ef4444;       /* red-500 */
-      --ring: #3b82f6;         /* blue-500 */
-      --card: #0b1220;         /* dark navy */
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --accent: #2563eb;       /* blue-600 */
+      --accent2: #0ea5e9;      /* sky-500 */
+      --green: #22c55e;
+      --red: #ef4444;
       --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
     body {
-      margin: 0;
-      background: radial-gradient(1200px 600px at 10% -10%, #162036, #0b1220 60%), var(--bg);
-      color: var(--text);
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      min-height: 100vh;
-      padding: 24px;
+      margin: 0; padding: 12px; padding-top: calc(12px + var(--safe-top)); padding-bottom: calc(16px + var(--safe-bottom));
+      background: radial-gradient(900px 500px at 10% -10%, #162036, #0b1220 60%), var(--bg);
+      color: var(--text); font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
     }
 
-    .container { max-width: 1100px; margin: 0 auto; }
-    header {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    h1 { font-size: 28px; margin: 0; letter-spacing: .3px; }
-    .sub { color: var(--muted); font-size: 14px; }
+    .container { max-width: 680px; margin: 0 auto; }
+    header { position: sticky; top: 0; z-index: 5; background: linear-gradient(180deg, rgba(11,18,32,.95), rgba(11,18,32,.75)); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.06); border-top-left-radius: 12px; border-top-right-radius: 12px; }
+    header .inner { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; }
+    h1 { font-size: 20px; margin: 0; letter-spacing: .2px; }
+    .sub { color: var(--muted); font-size: 12px; }
 
-    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-    @media (min-width: 900px) { .grid { grid-template-columns: 1.2fr .8fr; } }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .card-header { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,.06); }
-    .card-title { margin: 0; font-size: 18px; }
-    .card-body { padding: 18px 20px; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .card-header { padding: 12px; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .card-title { margin: 0; font-size: 16px; }
+    .card-body { padding: 12px; }
 
-    .balances { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .balance {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 14px;
-      padding: 16px;
-    }
-    .balance h3 { margin: 0 0 8px; font-size: 14px; color: var(--muted); font-weight: 600; }
-    .money { font-size: 28px; font-weight: 700; letter-spacing: .4px; }
+    .balances { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 480px) { .balances { grid-template-columns: 1fr 1fr; } }
 
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    .row4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
-    .stack { display: grid; gap: 12px; }
+    .balance { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: 14px; padding: 12px; }
+    .balance h3 { margin: 0 0 6px; font-size: 12px; color: var(--muted); font-weight: 600; }
+    .money { font-size: 24px; font-weight: 800; letter-spacing: .2px; }
+
+    .row, .row3, .row4, .stack { display: grid; gap: 10px; }
+    .row { grid-template-columns: 1fr; }
+    @media (min-width: 520px) { .row { grid-template-columns: 1fr 1fr; } }
+    .row3 { grid-template-columns: 1fr; }
+    @media (min-width: 520px) { .row3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .row4 { grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .row4 { grid-template-columns: 1fr 1fr 1fr 1fr; } }
 
     label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
     input[type="number"], input[type="text"], select {
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: #0b1220;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease;
+      width: 100%; height: 48px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1); background: #0b1220; color: var(--text);
+      outline: none; transition: border-color .15s ease, box-shadow .15s ease; font-size: 16px; /* mobile zoom prevention */
     }
-    input:focus, select:focus {
-      border-color: var(--ring);
-      box-shadow: 0 0 0 4px rgba(59,130,246,.2);
-    }
+    input:focus, select:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,.2); }
 
-    .btn {
-      appearance: none; border: none; cursor: pointer;
-      padding: 12px 14px; border-radius: 12px; font-weight: 700; letter-spacing: .2px;
-      background: linear-gradient(180deg, #2563eb, #1d4ed8);
-      color: white; box-shadow: var(--shadow);
-      transition: transform .06s ease, filter .2s ease;
-    }
+    .btn { appearance: none; border: none; cursor: pointer; width: 100%; height: 48px; padding: 0 14px; border-radius: 12px; font-weight: 800; letter-spacing: .2px; background: linear-gradient(180deg, var(--accent), #1d4ed8); color: white; box-shadow: var(--shadow); touch-action: manipulation; }
     .btn:active { transform: translateY(1px); }
-    .btn.secondary { background: linear-gradient(180deg, #0ea5e9, #0284c7); }
+    .btn.secondary { background: linear-gradient(180deg, var(--accent2), #0284c7); }
     .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.12); color: var(--text); }
     .btn.danger { background: linear-gradient(180deg, #ef4444, #dc2626); }
 
-    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .toolbar { display: grid; gap: 8px; grid-template-columns: 1fr; }
+    @media (min-width: 520px) { .toolbar { grid-template-columns: repeat(2, 1fr); } }
 
-    .alert { margin-top: 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.1); }
+    .alert { margin-top: 6px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.1); font-size: 14px; }
     .alert.bad { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.25); }
     .alert.good { background: rgba(34,197,94,.08); border-color: rgba(34,197,94,.25); }
 
-    .history { width: 100%; border-collapse: collapse; }
+    .history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; border: 1px solid rgba(255,255,255,.06); background: var(--panel); }
+    .history { width: 100%; border-collapse: collapse; min-width: 520px; }
     .history th, .history td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 14px; }
     .history th { text-align: left; color: var(--muted); font-weight: 600; }
     .chip { font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); }
 
     .legend { display: flex; gap: 12px; align-items: center; margin-top: 8px; color: var(--muted); font-size: 12px; }
     .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; background: #3b82f6; }
-    .swatch.red { background: #ef4444; }
-    .swatch.green { background: #22c55e; }
+    .swatch.red { background: var(--red); }
+    .swatch.green { background: var(--green); }
 
-    footer { margin-top: 24px; color: var(--muted); font-size: 12px; text-align: center; }
+    footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align: center; }
+
+    .spacer { height: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div>
-        <h1>Finanz-Tracker</h1>
-        <div class="sub">Verwalte Spar- & Privatkonto, Transfers und Buchungen. Alles lokal – keine Datenübertragung.</div>
-      </div>
-      <div class="toolbar">
-        <button class="btn ghost" id="resetBtn" title="Alle Daten löschen">Zurücksetzen</button>
+      <div class="inner">
+        <div>
+          <h1>Finanz-Tracker</h1>
+          <div class="sub">Mobil optimiert · Lokal gespeichert</div>
+        </div>
+        <button class="btn ghost" id="resetBtn" style="width:auto; height:38px; padding:0 12px;">Zurücksetzen</button>
       </div>
     </header>
 
+    <div class="spacer"></div>
+
     <div class="grid">
-      <!-- LEFT COLUMN -->
+      <!-- SECTION: Kontostände & Aktionen -->
       <section class="card">
         <div class="card-header"><h2 class="card-title">Kontostände</h2></div>
         <div class="card-body stack">
@@ -153,11 +136,11 @@
             <button class="btn" id="applyStart">Setzen / Aktualisieren</button>
           </div>
 
-          <hr style="border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 6px 0 0;" />
+          <hr style="border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 2px 0 0;" />
 
           <div class="card" style="border-radius: 12px;">
             <div class="card-body stack">
-              <h3 style="margin:0 0 4px; font-size: 16px;">Überweisung zwischen Konten</h3>
+              <h3 style="margin:0 0 4px; font-size: 15px;">Überweisung zwischen Konten</h3>
               <div class="row3">
                 <div>
                   <label for="transferAmount">Betrag</label>
@@ -170,7 +153,8 @@
                     <option value="s2p">Spar → Privat</option>
                   </select>
                 </div>
-                <div style="display:flex; align-items:end;">
+                <div>
+                  <label>&nbsp;</label>
                   <button class="btn secondary" id="transferBtn">Überweisen</button>
                 </div>
               </div>
@@ -180,7 +164,7 @@
 
           <div class="card" style="border-radius: 12px;">
             <div class="card-body stack">
-              <h3 style="margin:0 0 4px; font-size: 16px;">Buchung (Einnahme/Ausgabe)</h3>
+              <h3 style="margin:0 0 4px; font-size: 15px;">Buchung (Einnahme/Ausgabe)</h3>
               <div class="row4">
                 <div>
                   <label for="bookType">Typ</label>
@@ -197,7 +181,8 @@
                   <label for="bookDesc">Beschreibung (optional)</label>
                   <input type="text" id="bookDesc" maxlength="80" placeholder="z. B. Lohn / Miete / Essen" />
                 </div>
-                <div style="display:flex; align-items:end;">
+                <div>
+                  <label>&nbsp;</label>
                   <button class="btn" id="bookBtn">Buchen</button>
                 </div>
               </div>
@@ -207,31 +192,30 @@
         </div>
       </section>
 
-      <!-- RIGHT COLUMN -->
+      <!-- SECTION: Charts & Verlauf -->
       <section class="card">
         <div class="card-header"><h2 class="card-title">Auswertung Privatkonto</h2></div>
         <div class="card-body stack">
-          <canvas id="barChart" width="800" height="360" style="width:100%;height:auto;border-radius:12px;background:#0b1220;border:1px solid rgba(255,255,255,.06);"></canvas>
+          <div style="border-radius:12px;background:#0b1220;border:1px solid rgba(255,255,255,.06); overflow:hidden;">
+            <canvas id="barChart" class="chart" style="display:block;width:100%;height:240px"></canvas>
+          </div>
           <div class="legend">
-            <span class="swatch green"></span> Einnahmen insgesamt
-            <span class="swatch red"></span> Ausgaben insgesamt
+            <span class="swatch green"></span> Einnahmen gesamt
+            <span class="swatch red"></span> Ausgaben gesamt
           </div>
 
-          <div class="card" style="border-radius:12px;">
-            <div class="card-body">
-              <h3 style="margin:0 0 8px; font-size: 16px;">Verlauf</h3>
-              <table class="history" id="historyTable">
-                <thead>
-                  <tr>
-                    <th>Datum</th>
-                    <th>Typ</th>
-                    <th>Beschreibung</th>
-                    <th style="text-align:right;">Betrag</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+          <div class="history-wrap">
+            <table class="history" id="historyTable">
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Typ</th>
+                  <th>Beschreibung</th>
+                  <th style="text-align:right;">Betrag</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -271,9 +255,7 @@
         return { ...initialState };
       }
     }
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     // --- Rendering ---
     const privatDisplay = byId('privatDisplay');
@@ -289,7 +271,7 @@
 
     function renderHistory() {
       historyTbody.innerHTML = '';
-      const rows = state.history.slice().reverse().slice(0, 50); // show latest 50
+      const rows = state.history.slice().reverse().slice(0, 100); // show latest 100
       for (const h of rows) {
         const tr = document.createElement('tr');
         const amount = (h.type === 'Einnahme' ? 1 : h.type === 'Ausgabe' ? -1 : (h.dir === 's2p' ? 1 : -1)) * h.amount;
@@ -303,12 +285,23 @@
       }
     }
 
-    // --- Chart (vanilla canvas) ---
+    // --- Chart (responsive, crisp on Retina) ---
     const canvas = byId('barChart');
     const ctx = canvas.getContext('2d');
 
+    function resizeCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const cssW = canvas.clientWidth;
+      const cssH = canvas.clientHeight;
+      canvas.width = Math.max(320, Math.floor(cssW * ratio));
+      canvas.height = Math.max(160, Math.floor(cssH * ratio));
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      drawChart();
+    }
+
     function drawChart() {
-      const w = canvas.width, h = canvas.height;
+      const w = canvas.clientWidth;   // draw in CSS pixels thanks to setTransform
+      const h = canvas.clientHeight;
       ctx.clearRect(0,0,w,h);
 
       // background grid
@@ -316,53 +309,51 @@
       ctx.fillRect(0,0,w,h);
       ctx.strokeStyle = 'rgba(255,255,255,.08)';
       ctx.lineWidth = 1;
-      for (let i=0;i<=5;i++) {
-        const y = 40 + i * ((h-80)/5);
-        ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(w-20, y); ctx.stroke();
+      for (let i=0;i<=4;i++) {
+        const y = 36 + i * ((h-72)/4);
+        ctx.beginPath(); ctx.moveTo(48, y); ctx.lineTo(w-16, y); ctx.stroke();
       }
 
       // axes labels
       ctx.fillStyle = 'rgba(229,231,235,0.9)';
       ctx.font = '14px system-ui, -apple-system, Segoe UI, Roboto';
-      ctx.fillText('Gesamt (Privatkonto)', 20, 24);
+      ctx.fillText('Gesamt (Privatkonto)', 16, 22);
 
       const income = state.incomeTotal;
       const expense = state.expenseTotal;
       const maxV = Math.max(income, expense, 1);
       const top = maxV * 1.2;
 
-      // bars
-      const chartLeft = 80, chartRight = w - 40, chartBottom = h - 40, chartTop = 40;
-      const chartWidth = chartRight - chartLeft;
-      const barWidth = 120;
-      const gap = 80;
+      // layout
+      const chartLeft = 64, chartRight = w - 20, chartBottom = h - 36, chartTop = 36;
+      const chartWidth = Math.max(140, chartRight - chartLeft);
+      const baseBar = Math.min(120, Math.max(60, chartWidth/5));
+      const barWidth = baseBar;
+      const gap = Math.min(80, Math.max(24, chartWidth/6));
       const incomeX = chartLeft + (chartWidth - (barWidth*2 + gap)) / 2;
       const expenseX = incomeX + barWidth + gap;
-
-      function barHeight(v) { return (v/top) * (chartBottom - chartTop); }
+      const barHeight = (v) => (v/top) * (chartBottom - chartTop);
 
       // income bar (green)
       const incomeH = barHeight(income);
       ctx.fillStyle = '#22c55e';
-      roundRect(ctx, incomeX, chartBottom - incomeH, barWidth, incomeH, 10);
-      ctx.fill();
+      roundRect(ctx, incomeX, chartBottom - incomeH, barWidth, incomeH, 10); ctx.fill();
 
       // expense bar (red)
       const expenseH = barHeight(expense);
       ctx.fillStyle = '#ef4444';
-      roundRect(ctx, expenseX, chartBottom - expenseH, barWidth, expenseH, 10);
-      ctx.fill();
+      roundRect(ctx, expenseX, chartBottom - expenseH, barWidth, expenseH, 10); ctx.fill();
 
       // labels
       ctx.fillStyle = 'rgba(229,231,235,0.9)';
       ctx.textAlign = 'center';
       ctx.font = '13px system-ui, -apple-system, Segoe UI, Roboto';
-      ctx.fillText('Einnahmen', incomeX + barWidth/2, chartBottom + 18);
-      ctx.fillText('Ausgaben', expenseX + barWidth/2, chartBottom + 18);
+      ctx.fillText('Einnahmen', incomeX + barWidth/2, chartBottom + 16);
+      ctx.fillText('Ausgaben', expenseX + barWidth/2, chartBottom + 16);
 
-      ctx.font = 'bold 16px system-ui, -apple-system, Segoe UI, Roboto';
-      ctx.fillText(fmt.format(income), incomeX + barWidth/2, chartBottom - incomeH - 10);
-      ctx.fillText(fmt.format(expense), expenseX + barWidth/2, chartBottom - expenseH - 10);
+      ctx.font = 'bold 15px system-ui, -apple-system, Segoe UI, Roboto';
+      ctx.fillText(fmt.format(income), incomeX + barWidth/2, chartBottom - incomeH - 8);
+      ctx.fillText(fmt.format(expense), expenseX + barWidth/2, chartBottom - expenseH - 8);
     }
 
     function roundRect(ctx, x, y, w, h, r) {
@@ -387,14 +378,8 @@
     byId('applyStart').addEventListener('click', () => {
       const p = nonNegNumber(byId('startPrivat').value ?? '');
       const s = nonNegNumber(byId('startSpar').value ?? '');
-      if (p === null || s === null) {
-        showBookAlert('Bitte gültige Startbeträge eingeben.', false);
-        return;
-      }
-      state.privat = p; state.spar = s;
-      saveState();
-      renderBalances();
-      showBookAlert('Startbeträge gesetzt.', true);
+      if (p === null || s === null) { showBookAlert('Bitte gültige Startbeträge eingeben.', false); return; }
+      state.privat = p; state.spar = s; saveState(); renderBalances(); showBookAlert('Startbeträge gesetzt.', true);
     });
 
     byId('transferBtn').addEventListener('click', () => {
@@ -408,10 +393,7 @@
       else { state.spar -= amount; state.privat += amount; }
 
       state.history.push({ date: nowStr(), type: 'Transfer', dir, amount, desc: '' });
-      saveState();
-      renderBalances();
-      renderHistory();
-      drawChart();
+      saveState(); renderBalances(); renderHistory(); drawChart();
       byId('transferAmount').value = '';
       showTransferAlert('Überweisung erfolgreich.', true);
     });
@@ -423,73 +405,44 @@
       if (amount === null || amount === 0) return showBookAlert('Bitte einen Betrag > 0 eingeben.', false);
 
       if (type === 'income') {
-        state.privat += amount;
-        state.incomeTotal += amount;
-        state.history.push({ date: nowStr(), type: 'Einnahme', amount, desc });
-        showBookAlert('Einnahme erfasst.', true);
+        state.privat += amount; state.incomeTotal += amount; state.history.push({ date: nowStr(), type: 'Einnahme', amount, desc }); showBookAlert('Einnahme erfasst.', true);
       } else {
         if (state.privat < amount) return showBookAlert('Nicht genügend Guthaben auf dem Privatkonto.', false);
-        state.privat -= amount;
-        state.expenseTotal += amount;
-        state.history.push({ date: nowStr(), type: 'Ausgabe', amount, desc });
-        showBookAlert('Ausgabe erfasst.', true);
+        state.privat -= amount; state.expenseTotal += amount; state.history.push({ date: nowStr(), type: 'Ausgabe', amount, desc }); showBookAlert('Ausgabe erfasst.', true);
       }
 
-      saveState();
-      renderBalances();
-      renderHistory();
-      drawChart();
-      byId('bookAmount').value = '';
-      byId('bookDesc').value = '';
+      saveState(); renderBalances(); renderHistory(); drawChart();
+      byId('bookAmount').value = ''; byId('bookDesc').value = '';
     });
 
     byId('resetBtn').addEventListener('click', () => {
       if (!confirm('Wirklich alle Daten (Kontostände, Summen & Verlauf) löschen?')) return;
-      state = { ...initialState };
-      saveState();
-      renderBalances();
-      renderHistory();
-      drawChart();
-      showTransferAlert('Daten zurückgesetzt.', true);
+      state = { ...initialState }; saveState(); renderBalances(); renderHistory(); drawChart(); showTransferAlert('Daten zurückgesetzt.', true);
     });
 
     function showTransferAlert(msg, good) {
       transferAlert.style.display = 'block';
       transferAlert.className = 'alert ' + (good ? 'good' : 'bad');
       transferAlert.textContent = msg;
-      setTimeout(()=> transferAlert.style.display = 'none', 2400);
+      setTimeout(()=> transferAlert.style.display = 'none', 2200);
     }
     function showBookAlert(msg, good) {
       bookAlert.style.display = 'block';
       bookAlert.className = 'alert ' + (good ? 'good' : 'bad');
       bookAlert.textContent = msg;
-      setTimeout(()=> bookAlert.style.display = 'none', 2400);
+      setTimeout(()=> bookAlert.style.display = 'none', 2200);
     }
 
-    // --- Initial render ---
-    function initInputsFromState() {
-      byId('startPrivat').value = state.privat;
-      byId('startSpar').value = state.spar;
-    }
+    // --- Initial render & responsiveness ---
+    function initInputsFromState() { byId('startPrivat').value = state.privat; byId('startSpar').value = state.spar; }
 
     function bootstrap() {
-      renderBalances();
-      renderHistory();
-      drawChart();
-      initInputsFromState();
-      // handle DPR for crisp canvas
-      const ratio = window.devicePixelRatio || 1;
-      if (ratio !== 1) {
-        const cssW = canvas.clientWidth;
-        const cssH = canvas.clientHeight;
-        canvas.width = cssW * ratio;
-        canvas.height = cssH * ratio;
-        canvas.style.width = cssW + 'px';
-        canvas.style.height = cssH + 'px';
-        ctx.scale(ratio, ratio);
-        drawChart();
-      }
+      renderBalances(); renderHistory(); initInputsFromState();
+      resizeCanvas();
     }
+
+    let resizeTimer; 
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resizeCanvas, 120); });
 
     bootstrap();
   </script>
